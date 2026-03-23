@@ -15,6 +15,13 @@ class ListingTable extends Component
         $listing->update(['status' => Listing::STATUS_ACTIVE]);
         session()->flash('success', 'Đã duyệt tin thành công!');
     }
+    // Phương thức để xử lý việc từ chối tin
+    public function reject($id)
+    {
+        $listing = Listing::findOrFail($id);
+        $listing->update(['status' => Listing::STATUS_REJECTED]);
+        session()->flash('success', 'Đã từ chối tin đăng này!');
+    }
     public function render()
     {
         $listings = Listing::where('status', 'pending')

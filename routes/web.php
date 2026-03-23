@@ -3,20 +3,21 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ListingController;
-use App\Http\Controllers\VerificationController;
 
-use App\Livewire\Home;
-use App\Livewire\ProductDetail;
+use App\Livewire\Clients\Home;
+use App\Livewire\Clients\CreateListing;
+use App\Livewire\Clients\ProductDetail;
+use App\Livewire\Clients\VerifyListing;
+use App\Livewire\Admin\ListingTable;
+
 
 Route::get('/', Home::class)->name('home');
 
-Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
-Route::post('/listings/store', [ListingController::class, 'store'])->name('listings.store');
+Route::get('/listings/create', CreateListing::class)->name('clients.create-listing');
 
-Route::get('/listings/{id}/verify', [VerificationController::class, 'show'])->name('listings.show_verify');
-Route::post('/listings/{id}/verify/check', [VerificationController::class, 'checkVerification'])->name('listings.check_now');
+Route::get('/listings/{id}/verify', VerifyListing::class)->name('livewire.clients.verify-listing');
 // Cac route cho admin
-Route::get('/admin/listings', [App\Http\Controllers\Admin\ListingController::class, 'index']);
+Route::get('/admin/listings', ListingTable::class)->name('admin.listings');
 
 // Cac route chi tiet san pham
 Route::get('/detail/{id}', ProductDetail::class)->name('product.detail');

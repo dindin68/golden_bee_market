@@ -1,46 +1,60 @@
-<div class="p-6">
+<div>
+    {{-- Thông báo thành công --}}
     @if (session()->has('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded shadow-sm">
+        <div class="alert alert-success border-0 shadow-sm mb-4 animate__animated animate__fadeIn">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-yellow-400 text-gray-800">
-                    <th class="p-4 font-bold uppercase text-sm">Website</th>
-                    <th class="p-4 font-bold uppercase text-sm">Xác minh sở hữu</th>
-                    <th class="p-4 font-bold uppercase text-sm text-center">Thao tác</th>
+    <div class="table-responsive bg-white rounded-4 shadow-sm">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light text-secondary uppercase small fw-bold">
+                <tr>
+                    <th class="ps-4">Sản phẩm</th>
+                    <th>Xác minh</th>
+                    <th>Ngày đăng</th>
+                    <th class="text-end pe-4">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($listings as $item)
-                    <tr class="border-b hover:bg-orange-50 transition duration-150">
-                        <td class="p-4">
-                            <div class="font-bold text-gray-800">{{ $item->title }}</div>
-                            <div class="text-xs text-blue-500 italic">{{ $item->domain }}</div>
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ $item->image ? asset('storage/' . $item->image) : 'https://via.placeholder.com/50' }}"
+                                    class="rounded-3 me-3" style="width: 45px; height: 45px; object-fit: cover;">
+                                <div>
+                                    <div class="fw-bold text-dark">{{ $item->title }}</div>
+                                    <small class="text-muted">{{ $item->domain }}</small>
+                                </div>
+                            </div>
                         </td>
-                        <td class="p-4">
+                        <td>
                             @if($item->is_verified)
-                                <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded-full font-bold animate-pulse">
-                                    🐝 VERIFIED OWNER
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill">
+                                    🐝 Đã xác minh
                                 </span>
                             @else
-                                <span class="text-gray-400 text-xs italic">Chưa xác minh</span>
+                                <span class="badge bg-light text-secondary rounded-pill">Chưa xác minh</span>
                             @endif
                         </td>
-                        <td class="p-4 text-center">
-                            <button wire:click="approve('{{ $item->id }}')"
-                                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow-md transition transform active:scale-95 text-sm">
-                                Duyệt Ngay
-                            </button>
+                        <td class="text-muted small">
+                            {{ $item->created_at->format('d/m/Y') }}
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group shadow-sm rounded-3">
+                                <button wire:click="approve('{{ $item->id }}')"
+                                    class="btn btn-sm btn-success px-3">Duyệt</button>
+                                <button wire:click="reject('{{ $item->id }}')"
+                                    class="btn btn-sm btn-outline-danger px-3">Hủy</button>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="p-10 text-center text-gray-400">
-                            Chưa có tin nào mới bà ơi, thong thả uống trà đi! ☕
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <div class="fs-1">😴</div>
+                            Hết tin chờ duyệt rồi má ơi, đi nghỉ ngơi thôi!
                         </td>
                     </tr>
                 @endforelse
