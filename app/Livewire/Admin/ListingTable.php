@@ -27,6 +27,8 @@ class ListingTable extends Component
         $listings = Listing::where('status', 'pending')
             ->orderBy('is_verified', 'desc')
             ->orderBy('created_at', 'desc')
+            ->search($this->search)
+            ->filter($this->filters)
             ->get();
 
         return view('livewire.admin.listing-table', ['listings' => $listings]);
