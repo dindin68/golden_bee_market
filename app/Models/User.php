@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'role',
         'rating'
     ];
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -85,6 +87,18 @@ class User extends Authenticatable
     public function mediatedTransactions()
     {
         return $this->hasMany(Transaction::class, 'admin_id', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (!$user->id) {
+                $user->id = (string) Str::uuid();
+            }
+            if (!$user->role) {
+                $user->role = 'user';
+            }
+        });
     }
 
 }
