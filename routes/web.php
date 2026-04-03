@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\VerificationController;
 
-// Gọi các Livewire Component (Nhớ check kỹ đường dẫn namespace này nhen)
 use App\Livewire\Clients\Home;
 use App\Livewire\Clients\CreateListing;
 use App\Livewire\Clients\ProductDetail;
@@ -32,12 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('profile', 'profile')->name('profile');
 
     // Quản lý Listing dành cho Client
-    Route::get('/listings/create', CreateListing::class)->name('clients.create-listing');
-    Route::get('/listings/{id}/verify', VerifyListing::class)->name('clients.verify-listing');
-
-    // Các Route xử lý Controller (nếu ông vẫn dùng Controller song song với Livewire)
-    Route::post('/listings/store', [ListingController::class, 'store'])->name('listings.store');
-    Route::post('/listings/{id}/verify/check', [VerificationController::class, 'checkVerification'])->name('listings.check_now');
+    Route::get('/listings/create', CreateListing::class)->name('livewire.clients.create-listing');
+    Route::get('/listings/{id}/verify', VerifyListing::class)->name('livewire.clients.verify-listing');
 
     /*
     |--------------------------------------------------------------------------

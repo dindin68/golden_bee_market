@@ -63,6 +63,6 @@ class VerifyListing extends Component
 
     public function render()
     {
-        return view('livewire.clients.verify-listing')->layout('layouts.app');
+        return view('livewire.clients.verify-listing')->layout('components.layouts.app');
     }
 }

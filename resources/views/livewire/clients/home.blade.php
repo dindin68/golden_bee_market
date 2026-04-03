@@ -1,161 +1,122 @@
-<div class="relative py-16">
-    <div class="relative max-w-6xl mx-auto px-6 tracking-wider py-16">
-
-        {{-- Title --}}
-        <div class="text-center font-bold m-4 sm:text-2xl md:text-3xl">
-            <h1 class="my-1 text-gray-700">Danh sách tất cả</h1>
-            <div class="inline-block px-4 py-3 mt-2 rounded-md bg-pink-500 text-white uppercase">MẪU WEBSITE</div>
+<div class="relative min-h-screen">
+    <div class="text-center bg-gradient-to-b from-[#231d00] to-[#594f3c] mb-10 py-16">
+        <h1 class="text-gray-400 font-bold uppercase tracking-[0.2em] text-sm mb-3">Khám phá kho giao diện</h1>
+        <div class="inline-block text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-10">
+            Tất cả
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ffce3a] to-[#ff8c3a]">Mẫu Website</span>
         </div>
 
-        {{-- Search + Filters --}}
+        {{-- 2. Search + Filters--}}
         <div
-            class="flex flex-col sm:flex-row items-stretch bg-white border-2 border-gray-300 rounded-lg shadow-sm mb-12">
+            class="flex flex-col lg:flex-row items-stretch bg-white/5 backdrop-blur-md border border-white/10 rounded-[1.5rem] overflow-hidden shadow-2xl mx-22">
 
-            {{-- Search --}}
-            <div class="relative flex flex-[2] items-center border-r border-gray-200 sm:p-0 p-2">
-                <div class="mx-4 text-gray-400">🔍</div>
-                <input wire:model.live.debounce.300ms="search" type="text" placeholder="Tìm mẫu website theo từ khoá"
-                    class="flex-1 w-full py-3 outline-none text-gray-600 placeholder-gray-400" />
+            {{-- 1. Search Section --}}
+            <div
+                class="relative flex flex-[2.5] items-center group px-6 border-b lg:border-b-0 lg:border-r border-white/10">
+                <div class="mr-3 text-amber-400/80 group-focus-within:text-amber-400 transition-colors duration-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
+                <input wire:model.live.debounce.300ms="search" type="text" placeholder="Tìm kiếm mẫu website..."
+                    class="flex-1 bg-transparent border-none outline-none focus:ring-0 text-white placeholder-gray-600 font-light tracking-wide text-md py-4" />
             </div>
 
-            {{-- Category --}}
-            <div class="relative flex-1 border-r border-gray-200">
-                <details class="group w-full h-full">
-                    <summary class="flex items-center justify-between gap-2 px-4 py-3 cursor-pointer h-full">
-                        <span class="italic font-medium text-gray-700 truncate">
-                            @if($filters['category'])
-                                {{ $categories->firstWhere('id', $filters['category'])->name ?? 'Tất cả ngành' }}
-                            @else
-                                Tất cả ngành
-                            @endif
-                        </span>
-
-                        <div class="text-purple-500 transition-transform group-open:rotate-180">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m6 9 6 6 6-6" />
-                            </svg>
-                        </div>
-                    </summary>
-
-                    <div
-                        class="absolute top-full left-0 w-64 mt-1 p-2 z-50 bg-white border border-gray-100 rounded-b-xl shadow-2xl">
-                        <div wire:click="setCategory('')"
-                            class="px-4 py-2 text-sm text-gray-600 cursor-pointer hover:bg-pink-50 rounded-lg">
-                            Tất cả ngành nghề
-                        </div>
-                        <hr class="my-1 border-gray-100">
-
-                        @foreach($categories as $cat)
-                            <div wire:click="setCategory('{{ $cat->id }}')"
-                                class="px-4 py-2 text-sm cursor-pointer rounded-lg font-medium
-                                                            {{ $filters['category'] == $cat->id ? 'bg-orange-100 text-orange-600' : 'text-gray-700 hover:bg-orange-50' }}">
-                                {{ $cat->name }}
-                            </div>
-                        @endforeach
-                    </div>
-                </details>
+            {{-- 2. Category Section --}}
+            <div class="relative flex-1 flex px-1 items-center border-b lg:border-b-0 lg:border-r border-white/10">
+                <select wire:model.live="filters.category"
+                    class="w-full bg-transparent border-none text-gray-400 font-medium text-sm outline-none cursor-pointer appearance-none focus:ring-0">
+                    <option value="" class="bg-[#1E293B]">Tất cả ngành nghề</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" class="bg-[#1E293B]">{{ $cat->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            {{-- Verified --}}
-            <div class="relative flex-1 border-r border-gray-200">
+            {{-- 3. Verified Section --}}
+            <div class="relative flex-1 px-2 items-center hidden lg:flex lg:border-r border-white/10">
                 <select wire:model.live="filters.is_verified"
-                    class="w-full h-full px-4 py-3 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none">
-                    <option value="">Tất cả tin</option>
-                    <option value="1">🐝 Đã xác minh</option>
-                    <option value="0">Chưa xác minh</option>
+                    class="w-full bg-transparent border-none text-amber-400/80 font-medium text-sm outline-none cursor-pointer appearance-none focus:ring-0">
+                    <option value="" class="bg-[#1E293B]">Mọi trạng thái</option>
+                    <option value="1" class="bg-[#1E293B]">Đã xác minh</option>
                 </select>
             </div>
 
-            {{-- Sort --}}
-            <div class="relative flex-1 border-r border-gray-200">
-                <select wire:model.live="sortField"
-                    class="w-full h-full px-4 py-3 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none">
-                    <option value="created_at">Mới nhất</option>
-                    <option value="monthly_profit">Lợi nhuận cao</option>
-                    <option value="monthly_revenue">Doanh thu cao</option>
-                </select>
-            </div>
-
-            {{-- Submit --}}
+            {{-- 4. Nút Tìm kiếm--}}
             <button
-                class="px-8 py-4 font-bold text-white rounded-r-lg bg-gradient-to-r from-[#ff8c3a] to-[#ff4b2b] hover:opacity-90 transition">
+                class="px-12 bg-gradient-to-r from-[#ffce3a] to-[#ff8c3a] text-white font-black uppercase tracking-[0.2em] text-[15px] hover:opacity-90 transition-all active:scale-95 flex items-center justify-center">
                 TÌM KIẾM
             </button>
         </div>
+    </div>
 
-        {{-- Listing Grid --}}
+    <div class="relative max-w-6xl mx-auto px-20 tracking-tight py-2">
+        {{-- 3. Listing Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             @forelse($listings as $item)
                 @livewire('components.listing-card', ['listing' => $item], key('home-' . $item->id))
             @empty
-                <div class="col-span-full text-center py-20">
-                    <div class="text-6xl mb-4">🐝</div>
-                    <p class="text-xl font-medium text-gray-400">Hông tìm thấy mẫu website nào khớp hết bà ơi!</p>
+                <div class="col-span-full text-center py-20 bg-white/5 rounded-[3rem] border border-dashed border-white/10">
+                    <div class="text-6xl mb-6 opacity-30">🐝</div>
+                    <p class="text-xl font-bold text-gray-500 uppercase tracking-widest">Hông tìm thấy con ong nào hết bà
+                        ơi!</p>
                 </div>
             @endforelse
         </div>
 
         {{-- Load More --}}
         @if($listings->count() >= $perPage)
-            <div class="flex justify-center mt-12">
+            <div class="flex justify-center mt-20">
                 <button wire:click="loadMore"
-                    class="flex items-center gap-2 px-10 py-3 font-bold text-pink-500 border-2 border-pink-500 rounded-full hover:bg-pink-500 hover:text-white transition-all shadow-lg">
-                    XEM THÊM MẪU WEBSITE KHÁC ➔
+                    class="group flex items-center gap-4 px-12 py-4 font-black text-white border-2 border-white/10 rounded-full hover:bg-white hover:text-black transition-all duration-500 shadow-xl">
+                    XEM THÊM MẪU WEBSITE <span class="group-hover:translate-x-2 transition-transform">➔</span>
                 </button>
             </div>
         @endif
     </div>
 
-    {{-- Banner Section --}}
-    <div class="relative flex flex-col items-center py-24 mt-24 text-center bg-[#2D0353] overflow-hidden select-none"
+    {{-- 4. Banner Section --}}
+    <div class="relative flex flex-col items-center py-32 mt-32 text-center overflow-hidden"
         style="background: radial-gradient(circle at center, #41116b 0%, #2D0353 100%);">
 
-        <img src="{{ asset('images/background_img/image.png') }}"
-            class="absolute top-1/2 left-1/2 w-[180%] md:w-[120%] opacity-15 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-
-        <div class="relative z-10 flex flex-col items-center">
-
-            <div class="hidden md:block absolute -left-20 md:-left-36 top-0 w-20 md:w-32 rotate-[-15deg] animate-pulse">
-                <img src="{{ asset('images/component_img/free.png') }}" class="w-full h-auto" />
-            </div>
-
-            <span class="mb-5 text-sm md:text-lg font-semibold text-white tracking-wide opacity-90">
-                Trải nghiệm trang trí website cho riêng bạn!
-            </span>
-
-            <h1 class="m-2 text-3xl sm:text-5xl font-bold text-white uppercase leading-[0.9] drop-shadow-xl">
-                Test thoải mái
-            </h1>
-
-            <h1
-                class="mt-3 text-3xl sm:text-5xl font-bold uppercase bg-gradient-to-b from-[#ffce3a] to-[#ff8c3a] bg-clip-text text-transparent drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)] leading-[0.9]">
-                Custom thả ga
-            </h1>
-
-            <h2 class="max-w-lg mt-6 text-white leading-relaxed">
-                Với hàng trăm mẫu website chuẩn SEO cho bạn tha hồ lựa chọn, đến khi hài lòng thì thôi
-            </h2>
+        {{-- Quầng sáng --}}
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-500/5 blur-[150px] pointer-events-none">
         </div>
 
-        {{-- Feature Blocks --}}
-        <div class="relative z-10 flex flex-col sm:flex-row justify-center gap-10 mt-10 px-6 max-w-6xl">
-            <div class="max-w-xs text-center text-white">
-                <img src="{{ asset('images/component_img/screen.png') }}"
-                    class="w-full h-auto mb-6 rounded-lg shadow-2xl" />
-                <span class="block mb-3 font-bold text-yellow-400">Cơ hội trải nghiệm giao diện thực tế</span>
-                <span class="text-sm opacity-80 leading-relaxed">Linh hoạt thay đổi visual, tính năng và giao diện chuẩn
-                    responsive trên mọi thiết bị</span>
-            </div>
+        <div class="relative z-10 space-y-4">
+            <span class="text-amber-400 font-black tracking-[0.3em] uppercase text-xs">Customization Experience</span>
+            <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter drop-shadow-2xl">
+                Test thoải mái <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-b from-[#ffce3a] to-[#ff8c3a]">Custom thả
+                    ga</span>
+            </h1>
+            <p class="max-w-xl mx-auto text-gray-300 font-medium leading-relaxed opacity-80 pt-4">
+                Với hàng trăm mẫu website chuẩn SEO cho bạn tha hồ lựa chọn, <br>đồng hành cùng bạn đến khi hài lòng thì
+                thôi.
+            </p>
 
-            <div class="max-w-xs text-center text-white">
-                <img src="{{ asset('images/component_img/page.png') }}"
-                    class="w-full h-auto mb-6 rounded-lg shadow-2xl" />
-                <span class="block mb-3 font-bold text-yellow-400">Website với đa dạng ngành nghề</span>
-                <span class="text-sm opacity-80 leading-relaxed">Mẫu website đa dạng, chuyên biệt cho từng lĩnh vực, đáp
-                    ứng mọi nhu cầu</span>
+            {{-- Feature Blocks--}}
+            <div class="flex flex-col md:flex-row justify-center gap-8 mt-16 px-6 max-w-5xl mx-auto">
+                <div
+                    class="flex-1 bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
+                    <img src="{{ asset('images/component_img/screen.png') }}"
+                        class="w-full h-auto mb-6 rounded-2xl shadow-2xl group-hover:scale-105 transition-transform" />
+                    <h4 class="font-black text-amber-400 uppercase tracking-widest text-sm mb-2">Trải nghiệm thực tế
+                    </h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Linh hoạt thay đổi visual và tính năng chuẩn
+                        Responsive trên mọi thiết bị.</p>
+                </div>
+                <div
+                    class="flex-1 bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
+                    <img src="{{ asset('images/component_img/page.png') }}"
+                        class="w-full h-auto mb-6 rounded-2xl shadow-2xl group-hover:scale-105 transition-transform" />
+                    <h4 class="font-black text-amber-400 uppercase tracking-widest text-sm mb-2">Đa dạng ngành nghề</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Mẫu website chuyên biệt cho từng lĩnh vực, đáp ứng
+                        mọi nhu cầu kinh doanh.</p>
+                </div>
             </div>
         </div>
-
     </div>
 </div>

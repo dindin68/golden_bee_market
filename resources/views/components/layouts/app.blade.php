@@ -8,48 +8,39 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-gray-900 antialiased">
-    {{-- 1. Cái div bao ngoài: Chỉ căn giữa khi là trang Login/Register --}}
-    <div
-        class="min-h-screen bg-gray-100 {{ request()->routeIs('login', 'register') ? 'flex flex-col sm:justify-center items-center pt-6 sm:pt-0' : '' }}">
+{{-- Kiểm tra xem có phải trang login hoặc register không --}}
+@php
+    $isAuth = request()->routeIs('login', 'register');
+@endphp
 
-        {{-- 2. Hiện Navigation: Chỉ hiện khi KHÔNG PHẢI login/register --}}
-        @unless (request()->routeIs('login', 'register'))
-            <livewire:layout.navigation />
-        @else
-            {{-- Hiện Logo to ở giữa nếu là trang Login/Register --}}
-            <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-20 h-20 fill-current text-yellow-500" />
-                </a>
+<body class="font-sans antialiased {{ $isAuth ? 'bg-black text-slate-200' : 'bg-white text-slate-900' }}">
+    <div class="min-h-screen relative overflow-hidden">
+
+        {{-- Chỉ hiển thị các đốm màu (blur) nếu là nền đen (trang login/reg) để tạo hiệu ứng đẹp --}}
+        @if($isAuth)
+            <div
+                class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none">
             </div>
-        @endunless
-
-        @if (isset($header))
-            <header class="bg-white shadow w-full">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+            <div
+                class="absolute bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-amber-500/5 blur-[150px] rounded-full pointer-events-none">
+            </div>
         @endif
 
-        {{-- 3. Phần nội dung chính (Main): Biến hình tùy theo trang --}}
-        <main class="{{ request()->routeIs('login', 'register')
-    ? 'w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg'
-    : 'w-full' }}">
+        {{-- Navigation --}}
+        @unless ($isAuth)
+            <livewire:layout.navigation />
+        @endunless
 
+        <main class="relative z-0">
             {{ $slot }}
         </main>
 
-        {{-- Bà có thể thêm Footer chung của Golden Bee ở đây nhen --}}
     </div>
 </body>
 

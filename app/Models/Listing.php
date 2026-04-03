@@ -26,6 +26,8 @@ class Listing extends Model
         'status',
         'monthly_revenue',
         'slug',
+        'img_desktop',
+        'img_mobile',
         'categories_id',
         'users_id'
     ];
