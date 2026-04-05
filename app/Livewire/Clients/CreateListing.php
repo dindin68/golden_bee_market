@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Clients;
 
+use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 
 use App\Models\Listing;
 use App\Models\Category;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CreateListing extends Component
@@ -59,7 +61,7 @@ class CreateListing extends Component
             'slug' => $slug,
             'img_desktop' => $pathDesktop,
             'img_mobile' => $pathMobile,
-            'users_id' => auth()->id() ?? 'USER01',
+            'users_id' => Auth::id() ?? 'USER01',
             'status' => 'pending',
         ]);
 
@@ -69,7 +71,7 @@ class CreateListing extends Component
     protected $messages = [
         'terms.accepted' => 'Bạn phải đồng ý với chính sách thì tôi mới cho đăng tin nhen!',
     ];
-
+    #[Layout('components.layouts.app')]
     public function render()
     {
         if (is_numeric($this->monthly_revenue) && is_numeric($this->operating_cost)) {
@@ -77,6 +79,6 @@ class CreateListing extends Component
         }
         return view('livewire.clients.create-listing', [
             'categories' => Category::all()
-        ])->layout('components.layouts.app');
+        ]);
     }
 }

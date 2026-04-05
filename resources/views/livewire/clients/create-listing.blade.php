@@ -1,17 +1,11 @@
 <div class="min-h-screen relative py-12 px-6 bg-[#0B1120]">
-    {{-- 1. Quầng sáng Spotlight --}}
-    <div class="fixed inset-0 z-0 pointer-events-none">
-        <div class="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-500/20 blur-[130px] rounded-full"></div>
-        <div class="absolute bottom-[10%] right-[-10%] w-[700px] h-[700px] bg-amber-500/15 blur-[160px] rounded-full">
-        </div>
-    </div>
 
     <div class="relative z-10 max-w-6xl mx-auto">
         {{-- Header --}}
         <div class="text-center mb-12">
             <h1
                 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-500 uppercase tracking-tighter">
-                Niêm yết Website</h1>
+                Tạo tin đăng Website</h1>
             <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.4em] mt-2 italic">Hệ thống đăng tin
                 Golden Bee Market</p>
         </div>
