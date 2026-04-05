@@ -36,7 +36,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin Routes (Dành riêng cho admin, nhớ middleware 'admin' để bảo vệ route này)
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/listings', ListingTable::class)->name('listings');
         // Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
     });
 

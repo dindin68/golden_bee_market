@@ -31,7 +31,6 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-// 1. Label: Chỉ được phép là ?string (tương đương string|null)
     protected static ?string $navigationLabel = 'Người dùng & KYC';
 
     // 2. Icon: Riêng cái này thì v4 lại cho phép BackedEnum (để dùng Enum icon)

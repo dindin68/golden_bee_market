@@ -23,10 +23,10 @@
                 <div class="relative group">
                     <div
                         class="bg-white p-4 rounded-[1rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.04)] border border-slate-100 relative z-10 overflow-hidden h-[480px]">
-                        @if($listing->image_desktop)
+                        @if($listing->img_desktop)
                             <div
                                 class="w-full h-full rounded-[1rem] overflow-hidden relative group/scroll border border-slate-50">
-                                <img src="{{ asset('storage/' . $listing->image_desktop) }}"
+                                <img src="{{ asset('storage/' . $listing->img_desktop) }}"
                                     class="w-full h-auto transition-transform duration-[8000ms] ease-in-out group-hover/scroll:-translate-y-[calc(100%-448px)]">
                             </div>
                         @else
@@ -40,9 +40,9 @@
                     {{-- Màn hình Mobile Overlay --}}
                     <div
                         class="absolute -bottom-10 -right-6 w-[210px] h-[420px] rounded-[2.5rem] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.12)] border-[10px] border-white bg-white z-20 hidden md:block group/mobile">
-                        @if($listing->image_mobile)
+                        @if($listing->img_mobile)
                             <div class="w-full h-full overflow-hidden relative group/mscroll rounded-[2.2rem]">
-                                <img src="{{ asset('storage/' . $listing->image_mobile) }}"
+                                <img src="{{ asset('storage/' . $listing->img_mobile) }}"
                                     class="w-full h-auto transition-transform duration-[6000ms] ease-in-out group-hover/mscroll:-translate-y-[calc(100%-400px)]">
                             </div>
                         @else
