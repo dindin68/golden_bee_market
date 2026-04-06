@@ -4,19 +4,28 @@
 
     {{-- PHẦN ẢNH: Tui đổi sang aspect-[3/4] để giảm chiều cao --}}
     <div class="relative aspect-[6/5] overflow-hidden bg-slate-50">
-        <img src="{{ $listing->image ? asset('storage/' . $listing->image) : 'https://placehold.co/600x800/FF8C3A/white?text=Golden+Bee' }}"
-            alt="{{ $listing->title }}"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-
-        {{-- Badge Verified nhỏ lại tí --}}
+        @if($listing->img_desktop)
+            <div class="w-full h-full rounded-[1rem] overflow-hidden relative group/scroll border border-slate-50">
+                <img src="{{ asset('storage/' . $listing->img_desktop) }}"
+                    class="w-full h-auto transition-transform duration-[8000ms] ease-in-out group-hover/scroll:-translate-y-[calc(100%-448px)]">
+            </div>
+        @else
+            <img src="{{ $listing->image ? asset('storage/' . $listing->image) : 'https://placehold.co/600x800/FF8C3A/white?text=Golden+Bee' }}"
+                alt="{{ $listing->title }}"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+        @endif
+        {{-- Badge Verified --}}
         @if($listing->is_verified)
             <div
-                class="absolute top-3 right-3 z-10 bg-amber-400 text-black text-[8px] px-2 py-1 rounded-full font-black shadow-md tracking-tighter">
+                class="absolute top-3 right-3 z-10 bg-blue-500 text-white text-[8px] px-2 py-1 rounded-full font-black shadow-md tracking-wider">
                 VERIFIED
             </div>
+        @else
+            <span
+                class="absolute top-3 right-3 z-10 bg-amber-500 text-white text-[8px] px-2 py-1 rounded-full font-black shadow-md tracking-wider">PENDING</span>
         @endif
 
-        {{-- Lớp phủ nút bấm: Đẩy lên giữa cho gọn --}}
+        {{-- Lớp phủ nút bấm--}}
         <div
             class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 backdrop-blur-[2px]">
             <a href="{{ $listing->demo_url ?? '#' }}" target="_blank"
@@ -30,7 +39,7 @@
         </div>
     </div>
 
-    {{-- PHẦN THÔNG TIN: Bóp gọn Padding từ p-6 xuống p-4 --}}
+    {{-- PHẦN THÔNG TIN --}}
     <div class="p-4 flex flex-col bg-white">
         <div class="mb-2">
             <h3
@@ -46,7 +55,7 @@
             <div class="flex flex-col">
                 <span class="text-[8px] text-slate-400 font-black uppercase tracking-tighter leading-none">Price</span>
                 <span
-                    class="text-slate-900 font-black text-base tracking-tighter">{{ number_format($listing->price) }}đ</span>
+                    class="text-slate-900 font-black text-base tracking-tighter">{{ number_format($listing->monthly_profit * 24) }}đ</span>
             </div>
             {{-- Icon nhỏ gọn --}}
             <div
