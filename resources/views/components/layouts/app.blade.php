@@ -27,8 +27,7 @@
             <livewire:layout.navigation />
         @endunless
 
-
-        <main class="relative z-0">
+        <main class="relative z-0 mt-16">
             {{ $slot }}
         </main>
 

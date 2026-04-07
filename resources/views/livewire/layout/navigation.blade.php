@@ -87,9 +87,11 @@ new class extends Component {
                 @else
                     <div class="flex items-center gap-8">
                         <a href="{{ route('login') }}" wire:navigate
-                            class="text-[9px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-[0.4em] transition-colors">Đăng nhập</a>
+                            class="text-[9px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-[0.4em] transition-colors">Đăng
+                            nhập</a>
                         <a href="{{ route('register') }}" wire:navigate
-                            class="text-[9px] font-black text-amber-600 hover:text-amber-700 uppercase tracking-[0.4em] transition-colors underline underline-offset-8 decoration-amber-200">Đăng ký</a>
+                            class="text-[9px] font-black text-amber-600 hover:text-amber-700 uppercase tracking-[0.4em] transition-colors underline underline-offset-8 decoration-amber-200">Đăng
+                            ký</a>
                     </div>
                 @endauth
 
@@ -115,11 +117,13 @@ new class extends Component {
                 <div class="h-px bg-slate-100"></div>
                 <a href="{{ route('profile') }}" wire:navigate
                     class="block text-[9px] font-black text-amber-600 uppercase tracking-[0.4em]">Profile</a>
-                <button wire:click="logout"
-                    class="block text-[9px] font-black text-red-500 uppercase tracking-[0.4em]">Đăng xuất</button>
+                <button wire:click="logout" class="block text-[9px] font-black text-red-500 uppercase tracking-[0.4em]">Đăng
+                    xuất</button>
             @endauth
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <x-flash-message />
         </div>
     </nav>
 
-    <div class="h-20"></div>
 </div>

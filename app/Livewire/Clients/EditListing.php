@@ -51,6 +51,17 @@ class EditListing extends Component
             'new_img_mobile' => 'nullable|image',
         ]);
 
+        $isCriticalInfoChanged = (
+            $this->title !== $this->listing->getOriginal('title') ||
+            $this->domain !== $this->listing->getOriginal('domain') ||
+            $this->programming_language !== $this->listing->getOriginal('programming_language')
+        );
+
+        if ($isCriticalInfoChanged) {
+            $this->listing->is_verified = false;
+            $this->listing->status = 'pending';
+        }
+
         // Xử lý upload ảnh Desktop mới
         if ($this->new_img_desktop) {
             // Xóa ảnh cũ trong thư mục storage cho sạch máy
@@ -77,19 +88,25 @@ class EditListing extends Component
             'domain' => $this->domain,
             'founding_year' => $this->founding_year,
             'programming_language' => $this->programming_language,
+            'is_verified' => $this->listing->is_verified,
             'cms' => $this->cms,
             'hosting' => $this->hosting,
             'monthly_traffic' => $this->monthly_traffic,
             'traffic_source' => $this->traffic_source,
             'monthly_revenue' => $this->monthly_revenue,
             'operating_cost' => $this->operating_cost,
+            'status' => $this->listing->status,
             'monthly_profit' => $this->monthly_profit,
             'img_desktop' => $this->img_desktop,
             'img_mobile' => $this->img_mobile,
 
         ]);
 
-        session()->flash('message', 'Đã cập nhật hệ thống thành công! ✨');
+        if ($isCriticalInfoChanged) {
+            session()->flash('message', 'Đã cập nhật! Vì bạn đã đổi thông tin quan trọng nên hệ thống đã hủy xác thực sở hữu để kiểm tra lại nhé! 🐝');
+        } else {
+            session()->flash('message', 'Cập nhật thành công! ✨');
+        }
         return $this->redirectRoute('my-listings', navigate: true);
     }
 

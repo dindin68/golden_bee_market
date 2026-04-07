@@ -13,10 +13,87 @@
         </a>
     </div>
     {{-- Header --}}
-    <div class="px-12 my-12">
-        <h2 class="text-[10px] font-black text-amber-600 uppercase tracking-[0.5em] mb-2">Editor Mode</h2>
-        <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">Cập nhật tin đăng</h1>
-        <p class="text-slate-400 text-[10px] uppercase font-bold mt-2 tracking-widest">ID: {{ $listing->id }}</p>
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        {{-- Header chính --}}
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div class="px-12">
+                <h2 class="text-[10px] font-black text-amber-600 uppercase tracking-[0.5em]">Editor Mode</h2>
+                <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">Cập nhật tin đăng</h1>
+                <span class="text-slate-400 text-[10px] font-bold tracking-widest uppercase italic">
+                    #ID: {{ $listing->id }}
+                </span>
+            </div>
+
+            {{-- Trạng thái xác thực (Badge xịn) --}}
+            <div class="flex items-center">
+                @if($listing->is_verified)
+                    <div
+                        class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-6 py-3 rounded-2xl shadow-sm">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-emerald-700">Đã xác thực sở
+                            hữu</span>
+                        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                @else
+                    <div
+                        class="flex items-center gap-3 bg-slate-100 border border-slate-200 px-6 py-3 rounded-2xl shadow-sm opacity-60">
+                        <div class="w-2 h-2 bg-slate-400 rounded-full"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Chưa xác thực sở
+                            hữu</span>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        {{-- Alert Box: Lưu ý thay đổi --}}
+        <div class="relative overflow-hidden bg-slate-900 rounded-[2rem] p-8 shadow-2xl border-l-8 border-amber-400">
+            {{-- Trang trí icon con ong mờ mờ ở góc --}}
+            <div class="absolute top-[-20px] right-[-20px] opacity-10 text-white transform rotate-12">
+                <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
+                </svg>
+            </div>
+
+            <div class="relative z-10 flex flex-col md:flex-row md:items-start gap-6">
+                <div class="flex-shrink-0 bg-amber-400 p-3 rounded-2xl shadow-lg shadow-amber-400/20">
+                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-amber-400">Hệ thống bảo mật Golden Bee
+                    </h4>
+                    <p class="text-slate-300 text-sm font-medium leading-relaxed max-w-2xl">
+                        Để đảm bảo tính minh bạch, trạng thái <span class="text-white font-bold">Xác thực sở hữu</span>
+                        sẽ
+                        tự động bị hủy & cần chờ <span class="text-white font-bold"> Admin duyệt tin</span> để đăng tin
+                        lại nếu
+                        bạn thay đổi các thông tin cốt lõi sau:
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <span
+                            class="px-4 py-2 bg-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-100 rounded-xl border border-slate-700 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Tên miền (Domain)
+                        </span>
+                        <span
+                            class="px-4 py-2 bg-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-100 rounded-xl border border-slate-700 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Ngôn ngữ lập trình
+                        </span>
+                        <span
+                            class="px-4 py-2 bg-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-100 rounded-xl border border-slate-700 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Tiêu đề Website
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {{-- PHẦN MEDIA - DÀN HÀNG NGANG CHUYÊN NGHIỆP --}}
     <div class="my-12">
