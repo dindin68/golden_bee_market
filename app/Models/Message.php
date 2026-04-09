@@ -3,12 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Message extends Model
 {
     protected $table = 'messages';
     protected $keyType = 'string';
     public $incrementing = false; // Set to false if the primary key is not auto-incrementing
+    protected static function booted()
+    {
+        static::creating(function ($message) {
+            // Tạo ID dạng MSG- kết hợp với chuỗi ngẫu nhiên 10 ký tự
+            $message->id = 'MSG-' . Str::random(10);
+        });
+    }
+    const UPDATED_AT = null;
     protected $fillable = [
         'id',
         'listing_id',

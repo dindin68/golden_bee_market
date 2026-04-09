@@ -9,6 +9,7 @@ use App\Livewire\Clients\VerifyListing;
 use App\Livewire\Clients\Profile;
 use App\Livewire\Clients\MyListings;
 use App\Livewire\Clients\EditListing;
+use App\Livewire\Clients\Inbox;
 
 
 
@@ -26,6 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/my-listings', MyListings::class)->name('my-listings');
     Route::get('/listings/{listing}/edit', EditListing::class)
         ->name('listings.edit')
+        ->middleware(['auth', 'verified']);
+    Route::get('/inbox',Inbox::class)
+        ->name('inbox')
         ->middleware(['auth', 'verified']);
 
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {

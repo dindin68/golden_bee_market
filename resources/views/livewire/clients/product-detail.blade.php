@@ -1,4 +1,4 @@
-<div class="bg-[#FAFBFC] min-h-screen pb-20 selection:bg-amber-200 text-slate-900">
+<div class="bg-[#FAFBFC] min-h-screen pb-20 selection:bg-amber-200 text-slate-900 scroll-smooth">
     <div class="max-w-7xl mx-auto px-6 pt-10">
         <a href="{{ route('home') }}"
             class="inline-flex items-center italic text-slate-500 hover:text-amber-500 transition-all font-black group text-[15px] uppercase">
@@ -117,35 +117,42 @@
 
             {{-- CỘT PHẢI: FINANCIALS --}}
             <div class="lg:col-span-4 space-y-8 lg:sticky lg:top-8">
-
-                {{-- Card Giá --}}
+                {{-- Seller Profile --}}
                 <div
-                    class="bg-[#fffca3] rounded-[2rem] p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-400/5 blur-[60px] rounded-full"></div>
-
-                    <span class="text-slate-400 text-[11px] font-black uppercase  mb-6 block text-center">Giá
-                        sở hữu trọn gói</span>
-                    <div class="flex items-baseline justify-center gap-2 mb-6">
-                        <span class="text-3xl font-black text-slate-900  italic">
-                            {{ number_format($listing->monthly_profit * 24) }}
-                        </span>
-                        <span class="text-amber-500 font-black text-sm uppercase  italic">VNĐ</span>
+                    class="bg-slate-900 rounded-[1.5rem] p-4 flex items-center gap-2 border border-slate-100 group hover:bg-slate-800 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <x-user-avatar :user="$listing->user" size="w-16 h-16" textSize="text-2xl" />
+                        <div class="gap-2 flex flex-col">
+                            <h3 class="font-black text-amber-400 ">{{ $listing->user->name }}</h3>
+                            @auth
+                                @if($listing->users_id !== auth()->id())
+                                    <a href="{{ route('inbox', ['chat_with' => $listing->users_id, 'about' => $listing->id]) }}"
+                                        class="block w-full bg-gradient-to-r from-amber-600 to-amber-300 text-white p-2 rounded-2xl font-black text-[10px] uppercase transition-all hover:bg-white text-center shadow-lg shadow-amber-400/20">
+                                        Chat ngay để thương lượng
+                                    </a>
+                                @else
+                                    <div class="p-4 bg-slate-800 rounded-2xl text-center">
+                                        <p class="text-[9px] font-black text-amber-500 uppercase italic">Dự án này là của má đó!
+                                            🐝</p>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="space-y-4">
+                                    <p class="text-white text-[10px] font-bold italic text-center opacity-60">Má phải đăng
+                                        nhập mới chat được!</p>
+                                    <a href="{{ route('login') }}"
+                                        class="block w-full py-4 bg-amber-400 text-black rounded-2xl text-[10px] font-black text-center uppercase tracking-widest">
+                                        Đăng nhập ngay
+                                    </a>
+                                </div>
+                            @endauth
+                        </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <button
-                            class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white py-2 rounded-2xl font-black text-[12px] uppercase  transition-all transform hover:shadow-[0_20px_50px_rgba(251,191,36,0.25)] hover:-translate-y-1 active:scale-95">
-                            Giao dịch ngay ➔
-                        </button>
-                        <button
-                            class="w-full bg-white border border-slate-200 text-slate-500 py-2 rounded-2xl font-black text-[12px] uppercase  transition-all hover:bg-slate-50">
-                            Liên hệ thương lượng
-                        </button>
-                    </div>
                 </div>
 
                 {{-- Báo cáo vận hành --}}
-                <div class="bg-white rounded-[3.5rem] p-10 border border-slate-100 shadow-sm space-y-10">
+                <div class="bg-white rounded-[1.5rem] p-10 border border-slate-100 shadow-sm space-y-10">
                     <h4 class="text-[9px] font-black text-slate-400 uppercase  flex items-center gap-3">
                         <span
                             class="w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.5)]"></span>
@@ -165,24 +172,7 @@
                             <span
                                 class="font-black text-red-500 text-xl ">-{{ number_format($listing->operating_cost) }}đ</span>
                         </div>
-                        <div class="pt-8 border-t border-slate-50 flex justify-between items-center">
-                            <span class="text-amber-600 text-[10px] font-black uppercase ">Lợi nhuận
-                                ròng</span>
-                            <span
-                                class="font-black text-3xl text-emerald-500 ">{{ number_format($listing->monthly_profit) }}đ</span>
-                        </div>
-                    </div>
-                </div>
 
-                {{-- Seller Profile --}}
-                <div
-                    class="bg-white rounded-[3rem] p-8 flex items-center gap-6 border border-slate-100 group hover:bg-slate-50/50 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <x-user-avatar :user="$listing->user" size="w-16 h-16" textSize="text-2xl" />
-                        <div>
-                            <h3 class="font-black text-slate-900">{{ $listing->user->name }}</h3>
-                            <p class="text-[10px] text-slate-400 uppercase tracking-widest">Người bán uy tín</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -209,5 +199,4 @@
             </div>
         </div>
     </main>
-
 </div>

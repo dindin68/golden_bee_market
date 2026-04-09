@@ -1,13 +1,29 @@
-<div>
+<div wire:poll.5s>
     <?php
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
+use App\Models\Message; // Nhớ thêm dòng này để dùng Model Message
 
 new class extends Component {
     public function logout(Logout $logout): void
     {
         $logout();
         $this->redirect('/', navigate: true);
+    }
+
+    // Tạo thuộc tính để lấy số lượng box chat chưa đọc
+    public function getUnreadCountProperty()
+    {
+        if (!auth()->check())
+            return 0;
+
+        // Đếm số lượng nhóm (Listing + Sender) có tin nhắn chưa đọc gửi đến tôi
+        return Message::where('receiver_id', auth()->id())
+            ->where('is_read', false)
+            ->groupBy('listing_id', 'sender_id')
+            ->select('listing_id', 'sender_id')
+            ->get()
+            ->count();
     }
 }; ?>
 
@@ -47,8 +63,29 @@ new class extends Component {
             </div>
 
             {{-- 👤 RIGHT: AUTH SECTION --}}
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-1">
                 @auth
+                    {{-- Icon hộp thư --}}
+                    <a href="{{ route('inbox') }}" wire:navigate class="relative p-2 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                            class="bi bi-chat-heart-fill text-amber-400 group-hover:scale-110 transition-transform"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
+                        </svg>
+
+                        {{-- BADGE: Chỉ hiện khi số lượng lớn hơn 0 --}}
+                        @if($this->unreadCount > 0)
+                            <span class="absolute top-1 right-1 flex h-4 w-4">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span
+                                    class="relative inline-flex rounded-full h-4 w-4 bg-red-500 text-[8px] font-black text-white items-center justify-center">
+                                    {{ $this->unreadCount }}
+                                </span>
+                            </span>
+                        @endif
+                    </a>
                     <div class="relative">
                         <button @click="profileOpen = !profileOpen" @click.away="profileOpen = false"
                             class="flex items-center gap-3 group px-3 py-1.5 rounded-full hover:bg-slate-50 transition-all">
